@@ -1,0 +1,11 @@
+.layout-mobile{
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.font-regular{
+    font-size: 12px;
+    line-height: 16px;
+}
