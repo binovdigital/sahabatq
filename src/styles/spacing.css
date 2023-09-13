@@ -13,3 +13,7 @@
 #__next{
     background: #F3F3F3;
 }
+
+.chat-baloon {
+    @apply p-2 rounded-lg max-w-xs overflow-auto;
+}

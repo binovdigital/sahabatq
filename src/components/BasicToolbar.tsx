@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link"
+import { ReactNode } from "react";
 
 export interface BasicToolbarProps{
     image?: boolean,
     shareButton?: boolean 
+    title?: string
+    children?: ReactNode
 }
 
 const BasicToolbarComponent = (props: BasicToolbarProps) =>{
@@ -18,7 +21,7 @@ const BasicToolbarComponent = (props: BasicToolbarProps) =>{
                     </Link>
                     {!props.image ?
                         (
-                        <h1 className="text-lg font-bold">Artikel Tentang Anak</h1>
+                        <h1 className="text-lg font-bold">{props.title ? props.title : "Artikel Tentang Anak"}</h1>
                         )
                         :
                         (
@@ -36,6 +39,7 @@ const BasicToolbarComponent = (props: BasicToolbarProps) =>{
                     </button>
                 )}
             </nav>
+            {props.children}
         </div>
     )
 }
