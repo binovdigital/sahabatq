@@ -6,10 +6,24 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
-  images:{
-    domains: ["localhost", "images.unsplash.com"]
-  },
+  reactStrictMode: false,
+  // images:{
+  //   domains: ["localhost", "images.unsplash.com"]
+  // },
+  images: {
+    
+    remotePatterns: [
+        {
+            protocol: 'https',
+            hostname: '**',
+            port: '',
+            pathname: '**',
+        },
+        {
+          hostname: "localhost"
+        }
+    ],
+},
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *
