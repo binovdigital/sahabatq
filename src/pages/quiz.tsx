@@ -121,16 +121,16 @@ export default function QuizPage() {
         for (let i = 0; i <= currentQuestionIndex; i++) {
           listItems.push(
             <div key={i}>
-                <div className="flex items-start space-x-2 mt-2">
-                    <Image width={24} height={24} src="https://lh3.googleusercontent.com/a/ACg8ocKP0H5Pumx6VWUKMPqdaQjeo719vJHHRhlhyYjQHaz1=s96-c" alt="Bot" className="w-8 h-8 rounded-full" />
-                    <div className="bg-purple-100 chat-baloon">
-                        <p className="text-sm break-words">{babyBluesQuestions[i]?.question}</p>
+                <div className="flex items-start space-x-2 mt-4">
+                    <img width={24} height={24} src="/assets/img/ava-consultant.png" alt="Bot" className="w-8 h-8 rounded-full" />
+                    <div className="bg-purple-100 chat-baloon-question">
+                        <p className="text-sm text-gray-800 break-words">{babyBluesQuestions[i]?.question}</p>
                     </div>
                 </div>
                 {userAnswers[i]?.answer && (
-                    <div className="flex items-end justify-end space-x-2 mt-2">
-                        <div className="bg-blue-500 chat-baloon">
-                        <p className="text-sm text-white break-words">{userAnswers[i]?.answer}</p>
+                    <div className="flex items-end justify-end space-x-2 mt-4">
+                        <div className="bg-gray-200 chat-baloon-answer">
+                        <p className="text-sm text-deep-purple-500 break-words">{userAnswers[i]?.answer}</p>
                         </div>
                     </div>
                 )}
@@ -142,17 +142,17 @@ export default function QuizPage() {
         
     return (
         <>
-            <BasicToolbarComponent title={"Quiz"}>
-                <div className="flex justify-center items-center h-[5vh] bg-white">
-                    <Progress className="w-[70%]" color="purple"  value={50} />
+            <BasicToolbarComponent title={"Baby Blues Screening Test"}>
+                <div className="flex justify-center items-center h-[5vh] bg-white shadow-lg">
+                    <Progress className="w-[70%] bg-deep-purple-100" color="purple" value={50} />
                 </div>
             </BasicToolbarComponent>
             <main className="min-h-fit bg-white">
                 <div className="p-4 overflow-y-auto min-h-[80vh] flex flex-col-reverse">
                     <div className="p-4">
                         {babyBluesQuestions[currentQuestionIndex]?.answer.map((option, index) => (
-                            <div className="bg-purple-500 p-2 m-1 rounded-lg float-left" key={index} onClick={() => handleAnswerSelect(option)} >
-                                <p className="text-sm text-gray-300">{option.answer}</p>
+                            <div className="bg-gray-200 p-2 m-1 rounded-full float-left" key={index} onClick={() => handleAnswerSelect(option)} >
+                                <p className="text-sm text-deep-purple-500">{option.answer}</p>
                             </div>
                         ))}
                         <div className="clear-both"></div>

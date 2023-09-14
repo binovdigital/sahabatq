@@ -11,11 +11,11 @@ export interface BasicToolbarProps{
 
 const BasicToolbarComponent = (props: BasicToolbarProps) =>{
     return(
-        <div className="sticky top-0 z-10">
+        <div className="sticky top-0 z-10 ">
             <nav className="bg-white px-6 flex items-center justify-between py-3 border-b border-[#E1E1E1]">
                 <div className="space-x-2 flex items-center w-full">
                     <Link className="pr-2 py-2" href={"/"}>
-                        <svg viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-orange-600">
+                        <svg viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-deep-purple-800">
                             <path d="m7.41 10.688-4.58-4.59 4.58-4.59L6 .098l-6 6 6 6 1.41-1.41Z" fill="currentColor"></path>
                         </svg>
                     </Link>

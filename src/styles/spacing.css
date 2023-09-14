@@ -14,6 +14,9 @@
     background: #F3F3F3;
 }
 
-.chat-baloon {
-    @apply p-2 rounded-lg max-w-xs overflow-auto;
+.chat-baloon-question{
+    @apply p-4 rounded-3xl max-w-xs overflow-auto rounded-tl-none;
+}
+.chat-baloon-answer{
+    @apply p-4 rounded-3xl max-w-xs overflow-auto rounded-br-none;
 }

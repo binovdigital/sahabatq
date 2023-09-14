@@ -72,7 +72,7 @@ const ArticlesPage = () =>{
                                 <Image
                                 width={174}
                                 height={116}
-                                src={item.urlToImage || "http://localhost:3000/assets/img/header.jpg"}
+                                src={item.urlToImage || "/assets/img/header.jpg"}
                                 alt="card-image"
                                 className="h-full w-full object-cover"
                                 />
@@ -98,7 +98,7 @@ const ArticlesPage = () =>{
                         <Image className="w-full h-full object-cover absolute inset-0"
                             width={500}
                             height={281}
-                            src={product?.urlToImage ?? "http://localhost:3000/assets/img/header.jpg"}
+                            src={product?.urlToImage ?? "/assets/img/header.jpg"}
                             alt="Tentang Anak Hero Image"
                         />
                     </section>
