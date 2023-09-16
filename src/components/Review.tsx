@@ -1,5 +1,5 @@
 import { Carousel } from "@material-tailwind/react";
-import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/solid'
+import { StarIcon } from '@heroicons/react/24/solid'
 
 
 const ReviewComponent = () =>{

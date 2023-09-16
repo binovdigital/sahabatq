@@ -19,13 +19,13 @@ import Image from "next/image";
 
 import ReviewComponent from "~/components/Review";
 import AppMenuComponent from "~/components/AppMenu";
-import React from "react";
 import BottomNavComponent from "~/components/BottomNav";
+import { useState } from "react";
 
 export default function Home() {
-  const [modal, setModal] = React.useState(false);
-  const [isLove, setIsLove] = React.useState(false);
-  const [isSave, setIsSave] = React.useState(false);
+  const [modal, setModal] = useState(false);
+  const [isLove, setIsLove] = useState(false);
+  const [isSave, setIsSave] = useState(false);
   return (
     <>
       {/* <HeaderComponent/> */}
@@ -42,20 +42,26 @@ export default function Home() {
         <AppMenuComponent />
         <section className="p-5">
           <Carousel className="rounded-xl" autoplay autoplayDelay={3000} loop>
-            <Link href={"/quiz"}>
-              <img
+            <Link href={"/test"}>
+              <Image
+                width={374}
+                height={187}
                 src="/assets/img/1.jpg"
                 alt="image 1"
                 className="h-full w-full object-cover"
               />
             </Link>
 
-            <img
+            <Image
+              width={374}
+              height={187}
               src="/assets/img/2.jpg"
               alt="image 2"
               className="h-full w-full object-cover"
             />
-            <img
+            <Image
+              width={374}
+              height={187}
               src="/assets/img/3.jpg"
               alt="image 3"
               className="h-full w-full object-cover"

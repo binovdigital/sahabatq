@@ -29,7 +29,7 @@ export const articleRouter = createTRPCRouter({
       const article = new Readability(dom.window.document).parse();
       return article?.content;
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       throw new Error("Failed to retrieve and parse the content.");
     }
   }),
