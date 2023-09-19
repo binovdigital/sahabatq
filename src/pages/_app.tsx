@@ -13,10 +13,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <ThemeProvider>
-        <div className="relative flex flex-col justify-between min-h-screen layout-mobile bg-white">
-          <div>
+        <div className="relative flex flex-col min-h-screen layout-mobile bg-white">
+          {/* <div> */}
           <Component {...pageProps} />
-          </div>
+          {/* </div> */}
         </div>
       </ThemeProvider>
     </SessionProvider>

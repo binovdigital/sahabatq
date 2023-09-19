@@ -41,7 +41,7 @@ const ArticlesPage = () =>{
       
     return(
         <>
-            <BasicToolbarComponent></BasicToolbarComponent>
+            <BasicToolbarComponent backButtonHref="/" title="Artikel Tentang Anak"></BasicToolbarComponent>
             <main className="min-h-fit bg-white">
                 <div className="px-6 pt-2 pb-6 min-h-[calc(100vh-50px)] flex flex-col">
                     {

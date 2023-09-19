@@ -3,6 +3,8 @@ import {
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
+import { updatePhoneHandler } from "~/server/controller/user.controller";
+import { UserUpdateSchema } from "~/server/schema/user.schema";
 
 export const userRouter = createTRPCRouter({
   hello: publicProcedure
@@ -16,7 +18,10 @@ export const userRouter = createTRPCRouter({
   // getAll: publicProcedure.query(({ ctx }) => {
   //   return ctx.prisma.example.findMany();
   // }),
-
+  updateUserPhone: publicProcedure
+  .input(UserUpdateSchema)
+  .mutation(({ input }) => updatePhoneHandler({ input })),
+  
   getSecretMessage: publicProcedure.query(() => {
     return "you can now see this secret message!";
   }),

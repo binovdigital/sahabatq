@@ -1,19 +1,22 @@
 import BasicToolbarComponent from "~/components/BasicToolbar";
 import { Button } from "@material-tailwind/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from 'next/router'
 import ProgressBar from "~/components/ProgressBar";
 import { SubmitTestInput } from "~/server/schema/test.schema";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { error } from "console";
+import { getServerAuthSession } from "~/server/auth";
 
-export function getServerSideProps(context: GetServerSidePropsContext<{ id: string }>) {   
+export async function getServerSideProps(context: GetServerSidePropsContext<{ id: string }>) {   
     const id = context.params!.id;
+    const session = await getServerAuthSession(context);
     return {
       props: {
         id,
+        sess: session
       },
     };
   }
@@ -22,12 +25,13 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
     const [questions, setQuestion] = useState<BabyBluesQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState<answer[]>([]);
-    const [full, setfull] = useState<boolean>(false);
+    // const [full, setfull] = useState<boolean>(false);
     const router = useRouter()
-    const {data, isError} = api.test.getTestbyid.useQuery({id: props.id})
-    const { mutate: submitTest } = api.test.SubmitTest.useMutation({
-        onSuccess(){
-            console.log("berhasil")
+    const bottomRef = useRef<null | HTMLDivElement>(null);
+    const testById = api.test.getTestbyid.useQuery({id: props.id})
+    const { mutate: submitTest} = api.test.SubmitTest.useMutation({
+        onSuccess(data){
+            router.push(`/result/${data.data.user.testAttemptId}`)
         },
         onError(error){
             console.log(error)
@@ -36,31 +40,27 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
 
 
     useEffect(()=>{
-        if (data) {
-          const datas: BabyBluesQuestion[] = JSON.parse(JSON.stringify(data.testQuestionsAnswer))
+        if (testById.data) {
+          const datas: BabyBluesQuestion[] = JSON.parse(JSON.stringify(testById.data.testQuestionsAnswer))
           setQuestion(datas)
         }
-        if (data === null) {
+        if (testById.data === null) {
             router.push("/").catch((error)=>{
                 console.error("Error during navigation:", error);
             })
         }
-        if (isError) {
+        if (testById.isError) {
             router.push("/").catch((error)=>{
                 console.error("Error during navigation:", error);
             })
         }
-      },[data, isError])
-      
+      },[testById.data, testById.data])
 
-    const handleAnswerSelect = (selectedAnswer: answer) => {
-        setUserAnswers([...userAnswers, selectedAnswer]);
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        }else{
-            setfull(true)
-        }
-      };
+
+      useEffect(() => {
+        bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+      }, [userAnswers]);
+      
 
       const submitTestHandler = ()=>{
         const input: SubmitTestInput = {
@@ -72,18 +72,22 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
             userChildId: 0,
         };
         const totalPoint =  userAnswers.reduce((accumulator, current)=>{return accumulator + current.point}, 0)
-        input.userId = "clmk85b360000i0rcmu6w1eq6"
+        input.userId = props.sess?.user.id!
         input.Score = totalPoint
-        input.testId = data!.testId
-        console.log(input)
+        input.testId = testById.data!.testId
         submitTest(input)
     }
 
-    // useEffect(()=>{
-    //     if (userAnswers.length == questions.length && full) {
-            
-    //     }
-    // }, [full])
+    const handleAnswerSelect = (selectedAnswer: answer) => {
+        setUserAnswers([...userAnswers, selectedAnswer]);
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        }else{
+            // setfull(true)
+            submitTestHandler()
+        }
+      };
+
     const renderList = () => {
         const listItems = [];
         for (let i = 0; i <= currentQuestionIndex; i++) {
@@ -109,26 +113,23 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
       };
     return (
         <>
-            <BasicToolbarComponent title={"Baby Blues Screening Test"}>
+            <BasicToolbarComponent backButtonHref="/" title={"Baby Blues Screening Test"}>
                 <div className="flex justify-center items-center h-[5vh] bg-white shadow-lg">
                     <ProgressBar max={questions.length} value={userAnswers.length}></ProgressBar>
                 </div>
             </BasicToolbarComponent>
             <main className="min-h-fit bg-white">
                 <div className="p-4 overflow-y-auto min-h-[80vh] flex flex-col-reverse">
-                    {!full ? (
                         <div className="p-4">
                             {questions[currentQuestionIndex]?.answer.map((option, index) => (
-                                <div className="bg-gray-200 p-2 m-1 rounded-full float-left" key={index} onClick={() => handleAnswerSelect(option)} >
+                                <div className="bg-gray-200 px-4 py-2 m-1 rounded-xl float-left" key={index} onClick={() => handleAnswerSelect(option)} >
                                     <p className="text-sm text-deep-purple-500">{option.answer}</p>
                                 </div>
                             ))}
                             <div className="clear-both"></div>
                         </div>
-                    ) : (
-                        <Button onClick={submitTestHandler} className="mt-4 bg-deep-purple-700 lowercase">submit</Button>
-                    )}
   
+                    <div ref={bottomRef}></div>
                     {renderList().slice().reverse()}
                 </div>
 

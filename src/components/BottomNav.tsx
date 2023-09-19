@@ -6,7 +6,7 @@ const BottomNavComponent = () =>{
         <div className='mt-16'>
             <div className="fixed -bottom-1 z-10 rounded-t-3xl p-2 py-4 layout-mobile border-t-purple-200 bg-purple-900">
                 <div className='flex flex-row'>
-                    <Link href={""} className="basis-1/3 text-center items-center text-purple-100 font-semibold text-bold flex flex-col">
+                    <Link href={"/"} className="basis-1/3 text-center items-center text-purple-100 font-semibold text-bold flex flex-col">
                         <ArrowTrendingUpIcon className="w-6"/>
                         <p className="text-sm">Anak</p>
                     </Link>
@@ -14,10 +14,10 @@ const BottomNavComponent = () =>{
                         <HomeIcon className="w-6"/>
                         <p className="text-sm">Home</p>
                     </div>
-                    <div className="basis-1/3 text-center items-center text-purple-100 font-semibold text-bold flex flex-col">
+                    <Link href={"/auth/account"} className="basis-1/3 text-center items-center text-purple-100 font-semibold text-bold flex flex-col">
                         <UserIcon className="w-6"/>
                         <p className="text-sm">Akun</p>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>

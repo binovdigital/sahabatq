@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 export interface BasicToolbarProps{
     image?: boolean,
     shareButton?: boolean 
+    backButtonHref: string,
     title?: string
     children?: ReactNode
 }
@@ -14,18 +15,18 @@ const BasicToolbarComponent = (props: BasicToolbarProps) =>{
         <div className="sticky top-0 z-10 ">
             <nav className="bg-white px-6 flex items-center justify-between py-3 border-b border-[#E1E1E1]">
                 <div className="space-x-2 flex items-center w-full">
-                    <Link className="pr-2 py-2" href={"/"}>
+                    <Link className="pr-2 py-2" href={props.backButtonHref}>
                         <svg viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-deep-purple-800">
                             <path d="m7.41 10.688-4.58-4.59 4.58-4.59L6 .098l-6 6 6 6 1.41-1.41Z" fill="currentColor"></path>
                         </svg>
                     </Link>
                     {!props.image ?
                         (
-                        <h1 className="text-lg font-bold">{props.title ? props.title : "Artikel Tentang Anak"}</h1>
+                        <h1 className="text-lg font-bold">{props.title ? props.title : ""}</h1>
                         )
                         :
                         (
-                            <Image height={24} width={93} alt="Tentang Anak" loading="lazy" className="w-24 h-6" src="https://tentanganak.com/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fta-color.7abd832c.png&w=96&q=75"></Image>
+                            <Image height={24} width={93} alt="Tentang Anak" loading="lazy" className="w-24 h-6" src="/assets/img/logo-sahabatq.png"></Image>
                         )
                     }
                 </div>

@@ -52,7 +52,7 @@ export default function DetailArticle() {
     }
     return(
         <>
-            <BasicToolbarComponent image={true} />
+            <BasicToolbarComponent backButtonHref="/" image={true} />
             <article>
                 <section className="bg-[#E1E1E1] pt-[56.25%] relative w-full">
                     <Image className="absolute h-full w-full inset-0 object-cover object-center" alt="head" src={article.image} width={414} height={233}></Image>

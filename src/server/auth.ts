@@ -35,35 +35,40 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-  },
   adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    // DiscordProvider({
-    //   clientId: env.DISCORD_CLIENT_ID,
-    //   clientSecret: env.DISCORD_CLIENT_SECRET,
-    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     })
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60
+  },
+  pages: {
+    signIn: "auth/account",
+  },
+  callbacks: {
+    jwt({ token, user }: any) {
+      if (user) {
+          // token.role = user.role
+          // token.username = user.username
+          token.phoneNumber = user.phoneNumber
+          token.id = user.id
+      }
+      return token
+    },
+    session({ session, token }:any) {
+      if (session.user) {
+        // session.user.role = token.role
+        session.user.id  = token.id
+      }
+
+      return session
+    }
+  }
 };
 
 /**
