@@ -26,7 +26,7 @@ export default function LoginPage() {
                                     </div>
                         </CardBody> */}
                         <CardFooter className="pt-0">
-                            <Button fullWidth className="flex justify-center bg-deep-purple-500 items-center py-3 px-4" onClick={() => { signIn("google") }}>
+                            <Button fullWidth className="flex justify-center bg-deep-purple-500 items-center py-3 px-4" onClick={() => void signIn("google")}>
                                 <Image className="mr-2" src={"https://authjs.dev/img/providers/google.svg"} width={24} height={24} alt="google"></Image>
                                 <span className="ml-2  flex-grow capitalize">Sign in with google</span>
                             </Button>

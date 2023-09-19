@@ -60,12 +60,11 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    session({ session, token }:any) {
+    session({ session, token }: any) {
       if (session.user) {
         // session.user.role = token.role
         session.user.id  = token.id
       }
-
       return session
     }
   }

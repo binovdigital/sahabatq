@@ -1,6 +1,4 @@
-import { TRPCError } from "@trpc/server";
-import { createAttempt, findTest } from "../service/test.service";
-import { UserUpdateSchemaInput } from "../schema/user.schema";
+import type { UserUpdateSchemaInput } from "../schema/user.schema";
 import { updatePhoneNumber } from "../service/user.service";
 
 export const updatePhoneHandler = async ({input}: { input: UserUpdateSchemaInput}) => {

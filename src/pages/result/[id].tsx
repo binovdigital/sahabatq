@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import BasicToolbarComponent from "~/components/BasicToolbar";
 import { getServerAuthSession } from "~/server/auth";
@@ -7,9 +7,11 @@ import { api } from "~/utils/api";
 export default function ResultPage(props: InferGetServerSidePropsType<typeof getServerSideProps>){
     const id: number = parseInt(props.id)
     const router = useRouter()
-    const {data, isLoading} = api.test.getSingleAttemptbyid.useQuery({id: id, Userid: props.sess?.user.id!})
+    const {data, isLoading} = api.test.getSingleAttemptbyid.useQuery({id: id, Userid: props.sess!.user.id})
     if (!isLoading && !data) {
-      router.push("/")
+      router.push("/").catch((error)=>{
+        console.error("Error during navigation:", error);
+    })
     }
     return(
       <>

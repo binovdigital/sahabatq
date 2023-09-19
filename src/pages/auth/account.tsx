@@ -1,16 +1,13 @@
 import {
     Card,
     CardHeader,
-    CardBody,
     Typography,
     Button,
     CardFooter,
-    Input,
   } from "@material-tailwind/react";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import BasicToolbarComponent from "~/components/BasicToolbar";
 import { getServerAuthSession } from "~/server/auth";
    
@@ -26,7 +23,7 @@ import { getServerAuthSession } from "~/server/auth";
                             <Typography variant="h3" color="white">Login</Typography>
                         </CardHeader>
                         <CardFooter className="pt-0">
-                            <Button fullWidth className="flex justify-center bg-deep-purple-500 items-center py-3 px-4" onClick={() => { signIn("google") }}>
+                            <Button fullWidth className="flex justify-center bg-deep-purple-500 items-center py-3 px-4" onClick={() => void signIn("google") }>
                                 <Image className="mr-2" src={"https://authjs.dev/img/providers/google.svg"} width={24} height={24} alt="google"></Image>
                                 <span className="ml-2 flex-grow capitalize">Sign in with google</span>
                             </Button>
@@ -54,7 +51,7 @@ import { getServerAuthSession } from "~/server/auth";
                         </Button>
                     </CardBody> */}
                     <CardFooter className="pt-0">
-                        <Button fullWidth className="flex justify-center items-center bg-deep-purple-500 py-3 px-4" onClick={()=>{signOut()}}>
+                        <Button fullWidth className="flex justify-center items-center bg-deep-purple-500 py-3 px-4" onClick={()=>void signOut()}>
                             <span className="ml-2 flex-grow capitalize">Log out</span>
                         </Button>
                     </CardFooter>

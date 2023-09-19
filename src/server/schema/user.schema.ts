@@ -1,4 +1,4 @@
-import { number, object, string } from "zod";
+import { object, string } from "zod";
 import type { TypeOf } from "zod";
 
 export const UserUpdateSchema = object({

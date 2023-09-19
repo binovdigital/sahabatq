@@ -1,13 +1,11 @@
 import BasicToolbarComponent from "~/components/BasicToolbar";
-import { Button } from "@material-tailwind/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from 'next/router'
 import ProgressBar from "~/components/ProgressBar";
 import { SubmitTestInput } from "~/server/schema/test.schema";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { error } from "console";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerAuthSession } from "~/server/auth";
 
 export async function getServerSideProps(context: GetServerSidePropsContext<{ id: string }>) {   
@@ -30,8 +28,8 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
     const bottomRef = useRef<null | HTMLDivElement>(null);
     const testById = api.test.getTestbyid.useQuery({id: props.id})
     const { mutate: submitTest} = api.test.SubmitTest.useMutation({
-        onSuccess(data){
-            router.push(`/result/${data.data.user.testAttemptId}`)
+        async onSuccess(data){
+            await router.push(`/result/${data.data.user.testAttemptId}`)
         },
         onError(error){
             console.log(error)
@@ -72,7 +70,7 @@ export default function TestPage(props: InferGetServerSidePropsType<typeof getSe
             userChildId: 0,
         };
         const totalPoint =  userAnswers.reduce((accumulator, current)=>{return accumulator + current.point}, 0)
-        input.userId = props.sess?.user.id!
+        input.userId = props.sess!.user.id!
         input.Score = totalPoint
         input.testId = testById.data!.testId
         submitTest(input)

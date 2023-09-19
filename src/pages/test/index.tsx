@@ -1,14 +1,26 @@
-import { Card, CardBody, CardHeader, Tab, TabPanel, Tabs, TabsBody, TabsHeader, Typography } from "@material-tailwind/react"
-import { useSession } from "next-auth/react";
+import { Card, CardBody, Tab, TabPanel, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react"
 import Link from "next/link";
 import BasicToolbarComponent from "~/components/BasicToolbar"
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { api } from "~/utils/api"
+import { getServerAuthSession } from "~/server/auth";
 
-export default function ListTestPage() {
+
+export async function getServerSideProps(
+    context: GetServerSidePropsContext<{ id: string }>,
+  ) {   
+    const session = await getServerAuthSession(context);
+    return {
+      props: {
+        sess: session
+      },
+    };
+  }
+
+export default function ListTestPage(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const ListTest = api.test.getTest.useQuery();
-    const session = useSession();
-    
-    const ListHistory  = api.test.getTestAttemptbyUser.useQuery({id: session.data?.user.id!})
+
+    const ListHistory  = api.test.getTestAttemptbyUser.useQuery({id: props.sess!.user.id})
     if (ListTest.isLoading && ListHistory.isLoading) {
         return(
           <div className="flex justify-center items-center h-screen">

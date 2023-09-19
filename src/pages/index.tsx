@@ -1,8 +1,6 @@
 import Link from "next/link";
 import {
-  BookmarkIcon,
   ChevronRightIcon,
-  HeartIcon,
 } from "@heroicons/react/24/solid";
 import {
   Card,
@@ -13,9 +11,6 @@ import {
   DialogBody,
   DialogFooter,
   Button,
-  Carousel,
-  Input,
-  Textarea,
 } from "@material-tailwind/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -28,7 +23,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation'
 import 'swiper/css';
 import { api } from "~/utils/api";
-import { UserUpdateSchema, UserUpdateSchemaInput } from "~/server/schema/user.schema";
+import { UserUpdateSchema } from "~/server/schema/user.schema";
+import type { UserUpdateSchemaInput } from "~/server/schema/user.schema";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -40,7 +36,7 @@ export default function Home() {
   const session = useSession();
   const router = useRouter()
   useEffect(()=>{
-    if (data === "true" && session.data?.user) {
+    if (data === "true" && session.data!.user) {
       
         setModal(true)
     }
@@ -51,26 +47,23 @@ export default function Home() {
     resolver: zodResolver(UserUpdateSchema),
   });
   const {
-    reset,
     register,
-    setValue,
     handleSubmit,
-    formState: { isSubmitSuccessful, errors },
   } = methods;
 
 
   const { isLoading, mutate: updatePhone } = api.user.updateUserPhone.useMutation({
-    onSuccess(){
+    async onSuccess(){
       setModal(false)
-      router.push("/auth/account")
-      signOut()
+      await router.push("/auth/account")
+      await signOut()
     },
     onError(error){
       console.log(error)
     }
   });
   const onSubmitHandler: SubmitHandler<UserUpdateSchemaInput> = (values) => {
-    values.uid = session.data?.user.id!
+    values.uid = session.data!.user.id!
     updatePhone(values)
     
   };
@@ -102,7 +95,9 @@ export default function Home() {
                 href={"/test"}
                 className="flex items-center font-regular text-[#DE5A29]"
               >
-                <img
+                <Image
+                width={150}
+                height={100}
                   src="/assets/img/1.jpg"
                   alt="image 1"
                   className="h-full w-full object-cover rounded-3xl"
@@ -114,7 +109,9 @@ export default function Home() {
               href={"https://wa.me/6288228149133"}
               className="flex items-center font-regular text-[#DE5A29]"
             >
-                <img
+                <Image
+                width={150}
+                height={100}
                   src="/assets/img/2.jpg"
                   alt="image 2"
                   className="h-full w-full object-cover rounded-3xl"
@@ -126,7 +123,9 @@ export default function Home() {
                 href={"https://kursuscoding.com"}
                 className="flex items-center font-regular text-[#DE5A29]"
               >
-                <img
+                <Image
+                width={150}
+                height={100}
                   src="/assets/img/3.jpg"
                   alt="image 3"
                   className="h-full w-full object-cover rounded-3xl"
@@ -306,7 +305,7 @@ export default function Home() {
               </svg>
             </div>
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSubmitHandler)}>
+              <form onSubmit={void handleSubmit(onSubmitHandler)}>
 
               <DialogBody divider>
                 <div className="grid gap-6">
